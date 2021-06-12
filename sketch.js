@@ -4,11 +4,13 @@ var ball, edges;
 var music;
 
 function preload() {
-  // load sound herez
+  // load sound here
+  music = loadSound("music.mp3");
 }
 
 function setup() {
   canvas = createCanvas(800, 600);
+  music.play();
   blocksGroup = new Group;
 
   block1 = createSprite(80, 580, 200, 30);
@@ -38,44 +40,44 @@ function draw() {
   edges = createEdgeSprites();
   ball.bounceOff(edges);
   
-  isTouching();
-  bounceOff();
+  if(isTouching(ball, block2)){
+    ball.shapeColor="orange";
+    ball.velocityX = 0;
+    ball.velocityY = 0;
+    music.stop();
+  }
+  else{
+    ball.shapeColor="white";
+  }
+  bounceOff(ball,block1);
+  bounceOff(ball,block3);
+  bounceOff(ball,block4);
   drawSprites();
 }
 
-function isTouching(){
-  if (ball.x - block2.x < block2.width/2 + ball.width/2 && 
-      block2.x - ball.x < block2.width/2 + ball.width/2 &&
-      ball.y - block2.y < block2.height/2 + ball.height/2 &&
-      block2.y - ball.y < block2.height/2 + ball.height/2){
-      ball.velocityX=0;
-      ball.velocityY=0;
-      ball.shapeColor = "orange";   
+function isTouching(object1,object2){
+  if (object1.x - object2.x < object2.width/2 + object1.width/2 && 
+      object2.x - object1.x < object2.width/2 + object1.width/2 &&
+      object1.y - object2.y < object2.height/2 + object1.height/2 &&
+      object2.y - object1.y < object2.height/2 + object1.height/2){
+    return true;  
   }
+  else{
+    return false;
+  }
+}
 
-function bounceOff()
+function bounceOff(object1,object2){
   
-  if (ball.x- block1.x< block1.width/2+ ball.width/2 &&
-      block1.x- ball.x< block1.width/2+ ball.width/2&&
-      ball.x- block3.x< block3.width/2+ ball.width/2 &&
-      block3.x- ball.x< block3.width/2+ ball.width/2&&
-      ball.x- block4.x< block4.width/2+ ball.width/2 &&
-      block4.x- ball.x< block4.width/2+ ball.width/2){
-      ball.velocityX = 5;
-      ball.velocityY = 7;
-
+  if (object1.x- object2.x< object2.width/2+ object1.width/2 &&
+      object2.x- object1.x< object2.width/2+ object1.width/2){
+      object1.velocityX = object1.velocityX*-1;
+      object2.velocityX = object2.velocityX*-1;
   }
   
-  if (ball.y- block1.y< block1.height/2+ ball.height/2 &&
-    block1.y- ball.y< block1.height/2+ ball.height/2&&
-    ball.y- block3.y< block3.height/2+ ball.height/2 &&
-    block3.y- ball.y< block3.height/2+ ball.height/2&&
-    ball.y- block4.y< block4.height/2+ ball.height/2 &&
-    block4.y- ball.y< block4.height/2+ ball.height/2){
-      ball.velocityX = 5;
-      ball.velocityY = 7;
-
+  if (object1.y - object2.y < object2.height/2 + object1.height/2 &&
+      object2.y - object1.y < object2.height/2 + object1.height/2){
+      object1.velocityY = object1.velocityY*-1;
+      object2.velocityY = object2.velocityY*-1;
   }
-     
-  
-  }
+}
