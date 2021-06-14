@@ -46,12 +46,22 @@ function draw() {
     ball.velocityY = 0;
     music.stop();
   }
-  else{
-    ball.shapeColor="white";
+  
+  if(isTouching(ball,block1)){
+    ball.shapeColor="blue";
+    bounceOff(ball,block1);
   }
-  bounceOff(ball,block1);
-  bounceOff(ball,block3);
-  bounceOff(ball,block4);
+
+  if(isTouching(ball,block3)){
+    ball.shapeColor="red";
+    bounceOff(ball,block3);
+  }
+  
+  if(isTouching(ball,block4)){
+    ball.shapeColor="green";
+    bounceOff(ball,block4);
+  }
+  
   drawSprites();
 }
 
